@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gb-ingress
+  namespace: default
+  annotations:
+    # traefik ingress name for SSL
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  rules:
+    - host: gb.internal.projectmayhem.tech
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: guestbook-ui
+                port:
+                  number: 80
+
+  tls:
+    - hosts:
+        - gb.internal.projectmayhem.tech
